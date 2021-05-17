@@ -1,5 +1,4 @@
-import { BrowserHistory } from 'history';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import RouterContext, {RouterContextProps} from './routerContext';
 
 interface IProps extends RouterContextProps {
@@ -9,7 +8,7 @@ interface IProps extends RouterContextProps {
 
 export default function Link(props: IProps) {
     const {children, to} = props;
-    const { history, location } = useContext(RouterContext);
+    const { history } = useContext(RouterContext);
 
     function onClick(event: React.MouseEvent) {
         event.preventDefault();

@@ -2,7 +2,8 @@ import React from "react";
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  useRouter
 } from "./router";
 
 export default function App() {
@@ -22,14 +23,17 @@ export default function App() {
             </li>
           </ul>
         </nav>
+        <Route exact path="/">
+          <Home />
+        </Route>
         <Route path="/about">
           <About />
         </Route>
         <Route path="/users">
           <Users />
         </Route>
-        <Route path="/">
-          <Home />
+        <Route path="/:id">
+          <Params />
         </Route>
       </div>
     </Router>
@@ -46,4 +50,9 @@ function About() {
 
 function Users() {
   return <h2>Users</h2>;
+}
+
+function Params() {
+  const {params} = useRouter();
+  return <h2>ID:{params.id}</h2>;
 }
