@@ -1,7 +1,7 @@
 ## react-router
 
-前端路由的实现方式主要有两种，分别是 History 模式，和 Hash 模式。在 react-router 中它们分别对应<BrowserRouter/>和<HashRouter/>。不论哪种模式，要实现前端路由必须要满足核心的两点：
-1，修改 URL 的能力
+前端路由的实现方式主要有两种，分别是 History 模式，和 Hash 模式。在 react-router 中它们分别对应BrowserRouter和HashRouter。不论哪种模式，要实现前端路由必须要满足核心的两点：  
+1，修改 URL 的能力  
 2，监听 URL 变动的能力
 
 ### History 模式
