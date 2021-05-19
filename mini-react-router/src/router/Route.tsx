@@ -6,11 +6,12 @@ interface IProps extends RouterContextProps {
     children: React.ReactChildren;
     path: string;
     exact?: boolean;
+    component?: any;
     render: () => React.ReactElement
 }
 
 export default function Route(props: IProps) {
-    const { path, exact = false, render, children} = props;
+    const { path, exact = false, component,render, children} = props;
     const { history, location } = useContext(RouterContext);
     const [match, setMatch] = useState<boolean>(false);
     const [params, setParams] = useState<{}>({});
@@ -43,7 +44,15 @@ export default function Route(props: IProps) {
             history, 
             location,        
         }}>
-            {match && children}
+            {match ? 
+                children ?
+                    children 
+                        : component ?
+                            React.createElement(component)
+                            : render ?
+                        render()
+                    : null
+                : null}
         </RouterContext.Provider>
     )
 };
