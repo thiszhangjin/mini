@@ -1,60 +1,75 @@
 import React, {useState, useEffect} from "react";
-import store, {IState} from './store';
+import {connect} from './react-redux';
+import {IState} from './store';
 
 interface State {
   counterReducer: IState<number>;
   inputReducer: IState<string>;
 }
 
+interface IProps {
+  count: State['counterReducer'],
+  input: State['inputReducer'],
+  handleIncremented: () => void,
+  handleDecremented: () => void,
+  onInput: (value: string) => void;
+}
 
-export default function App() {
-  const state: State = store.getState();
-  const [count, setCount] = useState<IState<number>>(state.counterReducer);
-  const [input, setInput] = useState<IState<string>>(state.inputReducer);
-
-  useEffect(() => {
-    store.subscribe(() => {
-      setCount(state.counterReducer);
-      setInput(state.inputReducer);
-    })
-  })
-
-  function handleIncremented() {
-    store.dispatch({
-      type: 'incremented'
-    })
+function mapStateToProps(state: State) {
+  return {
+    count: state.counterReducer,
+    input: state.inputReducer
   }
+}
 
-  function handleDecremented() {
-    store.dispatch({
-      type: 'decremented',
+function mapDispatchToProps(dispatch: any) {
+  return {
+    handleIncremented: () => dispatch({
+      type: 'incremented'
+    }),
+    handleDecremented: () => dispatch({
+      type: 'decremented', 
       payload: {
         value: 2
       }
-    })
+    }),
+    onInput: (value: string) => dispatch({
+      type: 'setValue',
+      payload: {
+        value
+      }
+    }),
+  }
+}
+ 
+
+function App(props: IProps) {
+
+  function handleIncremented() {
+    props.handleIncremented();
+  }
+
+  function handleDecremented() {
+    props.handleDecremented();
   }
 
   function onInput(event: React.ChangeEvent<HTMLInputElement>) {
-    store.dispatch({
-      type: 'setValue',
-      payload: {
-        value: event.target.value
-      }
-    })
+    props.onInput(event.target.value);
   }
 
   return (
     <div>
       <h2>Home</h2>
-      <p>count: {count.value}</p>
+      <p>count: {props.count.value}</p>
       <button onClick={handleIncremented}>incremented</button>
       <button onClick={handleDecremented}>decremented</button>
       <div>-------------------------------------------</div>
       <input onChange={onInput}/>
-      <p>input: {input.value}</p>
+      <p>input: {props.input.value}</p>
       <div>-------------------------------------------</div>
-      <div>store</div>
-      <div>{JSON.stringify(state)}</div>
+      <p>props: {JSON.stringify(props)}</p>
     </div>
   );
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
