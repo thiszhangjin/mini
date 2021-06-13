@@ -14,7 +14,7 @@ export default function connect(mapStateToProps?: MapStateToProps, mapDispatchTo
         return function() {
             const {store} = useContext(Context);
             const [mapState, setMapState] = useState(mapStateToProps ? mapStateToProps(store?.getState()) : {});
-            const [mapDispatch, setMapDispatch] = useState(mapDispatchToProps ? mapDispatchToProps(store?.dispatch) : {});
+            const [mapDispatch] = useState(mapDispatchToProps ? mapDispatchToProps(store?.dispatch) : {});
 
             useEffect(() => {
                 const unSub = store?.subscribe(() => {
