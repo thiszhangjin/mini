@@ -1,5 +1,6 @@
 import {createStore, combineReducers, applyMiddleware} from '../redux';
 import {Reducer, Middleware} from '../redux/interface';
+import thunk from '../redux-thunk';
 
 export interface IState<T> {
     value: T
@@ -51,7 +52,7 @@ const exceptionMiddleware:Middleware = (store) =>  (next) => (action) => {
     } 
 }
 
-const rewriteCreateStoreFunc = applyMiddleware(exceptionMiddleware, timeMiddleware, loggerMiddleware);
+const rewriteCreateStoreFunc = applyMiddleware(thunk, exceptionMiddleware, timeMiddleware, loggerMiddleware);
 
 const store = createStore(reducer, {}, rewriteCreateStoreFunc);
 

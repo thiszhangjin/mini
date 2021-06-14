@@ -11,6 +11,7 @@ interface IProps {
   count: State['counterReducer'],
   input: State['inputReducer'],
   handleIncremented: () => void,
+  handleIncrementedAsync: () => void,
   handleDecremented: () => void,
   onInput: (value: string) => void;
 }
@@ -26,6 +27,13 @@ function mapDispatchToProps(dispatch: any) {
   return {
     handleIncremented: () => dispatch({
       type: 'incremented'
+    }),
+    handleIncrementedAsync: () => dispatch((dispatch: any) => {
+      setTimeout(() => {
+        dispatch({
+          type: 'incremented'
+        })
+      }, 1000)
     }),
     handleDecremented: () => dispatch({
       type: 'decremented', 
@@ -49,6 +57,10 @@ function App(props: IProps) {
     props.handleIncremented();
   }
 
+  function handleIncrementedAsync() {
+    props.handleIncrementedAsync();
+  }
+
   function handleDecremented() {
     props.handleDecremented();
   }
@@ -62,6 +74,7 @@ function App(props: IProps) {
       <h2>Home</h2>
       <p>count: {props.count.value}</p>
       <button onClick={handleIncremented}>incremented</button>
+      <button onClick={handleIncrementedAsync}>incrementedAsync</button>
       <button onClick={handleDecremented}>decremented</button>
       <div>-------------------------------------------</div>
       <input onChange={onInput}/>
