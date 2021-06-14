@@ -11,7 +11,7 @@ interface MapDispatchToProps {
 
 export default function connect(mapStateToProps?: MapStateToProps, mapDispatchToProps?: MapDispatchToProps) {
     return function connectWrapper(WrappedComponent: any) {
-        return function() {
+        return function(props: any) {
             const {store} = useContext(Context);
             const [mapState, setMapState] = useState(mapStateToProps ? mapStateToProps(store?.getState()) : {});
             const [mapDispatch] = useState(mapDispatchToProps ? mapDispatchToProps(store?.dispatch) : {});
@@ -30,7 +30,7 @@ export default function connect(mapStateToProps?: MapStateToProps, mapDispatchTo
             }, )
 
             return (
-                <WrappedComponent {...mapState} {...mapDispatch} />
+                <WrappedComponent {...props} {...mapState} {...mapDispatch} />
             )
         }
     }
