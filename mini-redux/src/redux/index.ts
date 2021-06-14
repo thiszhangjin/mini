@@ -57,9 +57,7 @@ const applyMiddleware: ApplyMiddleware = function(...middlewares: Middleware[]) 
     return function<S>(createStore: CreateStore, reducer: Reducer<S>, initState?: S) {
         const store = createStore(reducer, initState);
         
-        const chain: any[] = middlewares.map((middleware: any) => middleware({ 
-            getState: store.getState 
-        }));
+        const chain: any[] = middlewares.map((middleware: any) => middleware(store));
 
         store.dispatch = compose(chain)(store.dispatch);
 
